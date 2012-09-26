@@ -55,5 +55,5 @@ execute 'install_gerrit' do
   user 'gerrit2'
   cwd Chef::Config['file_cache_path']
   command "java -jar #{war_name} init -d #{node['gerrit']['path']}"
-  action :nothing
+  action :run
 end
