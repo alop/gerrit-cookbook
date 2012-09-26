@@ -18,6 +18,14 @@ user "gerrit2" do
   shell "/bin/false"
 end
 
+# Create gerrit directory
+directory node['gerrit']['path'] do
+  owner "gerrit2"
+  group "sys"
+  mode "0755"
+  action :create
+end
+
 # Create reviewdb mysql database
 mysql_database reviewdb do
   connection mysql_connection_info
@@ -47,7 +55,7 @@ bash 'install_gerrit' do
   user 'gerrit2'
   cwd Chef::Config['file_cache_path']
   code <<-EOH
-      java -jar #{war_name} init -d #{gerrit_path}
+      java -jar #{war_name} init -d #{node['gerrit']['path']}
     EOH
   action :nothing
 end
