@@ -21,7 +21,7 @@ end
 # Create gerrit directory
 directory node['gerrit']['path'] do
   owner "gerrit2"
-  group "sys"
+  group "gerrit2"
   mode "0755"
   action :create
 end
@@ -48,14 +48,12 @@ end
 war_name = "gerrit-#{node['gerrit']['version']}.war"
 remote_file "#{Chef::Config['file_cache_path']}/#{war_name}" do
   source "http://gerrit.googlecode.com/files/#{war_name}"
-  notifies :run, 'bash[install_gerrit]', :immediately
+  notifies :run, 'execute[install_gerrit]', :immediately
 end
 
-bash 'install_gerrit' do
+execute 'install_gerrit' do
   user 'gerrit2'
   cwd Chef::Config['file_cache_path']
-  code <<-EOH
-      java -jar #{war_name} init -d #{node['gerrit']['path']}
-    EOH
+  command "java -jar #{war_name} init -d #{node['gerrit']['path']}"
   action :nothing
 end
