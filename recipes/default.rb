@@ -36,7 +36,7 @@ end
 mysql_database_user "gerrit2" do
   connection mysql_connection_info
   password node['mysql']['gerrit_user_password']
-  database_name reviewdb
+  database_name "reviewdb"
   host '%'
   action :grant
 end
