@@ -7,7 +7,7 @@ include_recipe "java"
 include_recipe "mysql::server"
 include_recipe "database"
 
-mysql_connection_info = {:username => 'root', :password => node['mysql']['server_root_password']}
+mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
 
 node.set_unless['mysql']['gerrit_user_password']   = secure_password
 
@@ -27,7 +27,7 @@ directory node['gerrit']['path'] do
 end
 
 # Create reviewdb mysql database
-mysql_database "reviewdb" do
+mysql_database 'reviewdb' do
   connection mysql_connection_info
   action :create
 end
