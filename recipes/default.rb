@@ -27,7 +27,7 @@ directory node['gerrit']['path'] do
 end
 
 # Create reviewdb mysql database
-mysql_database reviewdb do
+mysql_database "reviewdb" do
   connection mysql_connection_info
   action :create
 end
