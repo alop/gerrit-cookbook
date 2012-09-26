@@ -11,19 +11,20 @@ mysql_connection_info = {:host => "localhost", :username => 'root', :password =>
 
 node.set_unless['mysql']['gerrit_user_password']   = secure_password
 
-# Create gerrit system user
-user "gerrit2" do
-  comment "Gerrit User"
-  system true
-  shell "/bin/false"
-end
-
 # Create gerrit directory
 directory node['gerrit']['path'] do
   owner "gerrit2"
   group "gerrit2"
   mode "0755"
   action :create
+end
+
+# Create gerrit system user
+user "gerrit2" do
+  comment "Gerrit User"
+  system true
+  home node['gerrit']['path']
+  shell "/bin/false"
 end
 
 # Create reviewdb mysql database
