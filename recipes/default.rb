@@ -48,6 +48,7 @@ end
 war_name = "gerrit-#{node['gerrit']['version']}.war"
 remote_file "#{Chef::Config['file_cache_path']}/#{war_name}" do
   source "http://gerrit.googlecode.com/files/#{war_name}"
+  owner "gerrit2"
   notifies :run, 'execute[install_gerrit]', :immediately
 end
 
